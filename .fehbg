@@ -1,0 +1,2 @@
+#!/bin/sh
+'feh' '--bg-fill' 'Pictures/Wallpapers/up_side_down.jpeg' 

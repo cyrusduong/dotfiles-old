@@ -1,0 +1,173 @@
+# move to bins
+#alias mount-henry='sudo mount -t cifs -o user=guest,pass=guest //HENRY/public /mnt/henry'
+#alias mount-perten='sudo mount -t cifs -o user=ddremote,pass=tomisawesome,file_mode=0777,dir_mode=0777       //10.128.20.38/Users /mnt/perten'
+
+# Silenced macro
+# Runs the command in the background, with absolutely zero output.
+silenced() {
+    "$@" &> /dev/null &;
+}
+
+function curlperf {
+      curl  -s -w "%{time_connect} + %{time_starttransfer} = %{time_total}\n" "("
+}
+
+# easy browser sync
+alias bs="browser-sync start --proxy 'localhost:4200' --files 'dist/*'"
+
+function kuberun {
+    [[ $# -lt 2 ]] && echo "Invalid number of arguments, [SERVICE_NAME] [IMAGE_NAME] [...COMMAND]"; return 1;
+
+    SERVICE_NAME=$1
+    IMAGE_NAME=$2
+    shift 2;
+    kubectl run $SERVICE_NAME --image=$IMAGE_NAME --restart=Never --quiet -i --rm -- "$@"
+}
+
+function gnew {
+    git add . && git stash && git checkout master && git checkout -b $1 && git stash pop
+}
+
+function gcamp {
+   git add . && \
+   git commit -am "$1" && \
+   git push
+}
+
+# new k get ns macro
+alias kgns="k get ns"
+
+# dont really use exa any more, but default its display a bit better:
+alias exa="exa -l --git"
+
+#vim becomes nvim, quick aliases from v to vim
+alias v="nvim"
+alias vim="v"
+alias vi="v"
+
+#neovim vimdiff
+alias vimdiff='nvim -d'
+
+#make sure nvm is our editor (probably not needed with aliasing up above)
+export EDITOR=nvim
+
+alias morning-routine="cli self-update && cli cp --all && cli auto-update && cli cp --fields"
+
+alias rspeed="rsync --info=progress2"
+
+# TODO :: this is for work printer, need to setup proper system differentiate
+
+alias sendprinter="lp -d HLL2315DW"
+
+alias diffs-from-master="git --no-pager log --no-merges master.. "
+alias diffs-from-master-count="diffs-from-master | grep commit | wc -l"
+
+
+function ambassador-diagnostic {
+   echo "Forwarding for: http://localhost:8877/ambassador/v0/diag/"
+   k port-forward -n ambassador svc/ambassador-admin 8877 &
+   chromium-browser http://localhost:8877/ambassador/v0/diag/
+}
+
+alias ysf='stp && yarn && yarn start:farm'
+alias ygg='stp && yarn && yarn generate-graphql'
+alias ysp='stp && yarn && yarn start:pro'
+
+alias playgroundpls='wd playground && yarn start'
+alias playgroundstart='wd playground && yarn start'
+
+alias stp='wd stp'
+alias wtfapache='sudo /etc/init.d/apache2 stop'
+
+alias watssh='ps aux | grep ssh-agent | grep -v grep'
+alias awkssh='watssh | awk '\''{print $2}'\'''
+alias fkinssh='awkssh | xargs kill -9'
+alias sshpls='eval $(ssh-agent) && ssh-add'
+alias fkinsshpls='fkinssh; sshpls; watssh'
+alias fdm='wd fdm'
+alias stp='wd stp'
+alias graphql='wd graphql'
+alias gql='wd graphql'
+
+alias pushnyeet='gp -f && yeet'
+alias rnp="rebasepls && gp -f"
+alias rpy="rebasepls && pushnyeet"
+
+alias newbr="git checkout -B"
+alias nb="newbr"
+
+alias nsp="--namespace=prod"
+alias nsb="--namespace=beta"
+
+alias setdir="CWD=$(pwd)"
+alias returndir='cd "$CWD"'
+alias refreshtokens="setdir && wd oauth && yarn job:refresh && returndir"
+
+alias clearlogs='sudo sh -c "truncate -s 0 /var/lib/docker/containers/*/*-json.log"'
+
+# morning startup script
+alias goodmorning='ssh-add && cli down && cli self-update && cli up && cli auto-update'
+alias rebuildstack='cli down && cli self-update && cli up'
+alias downup='cli down && cli up'
+# alias i3config
+alias i3config='vim ~/.config/i3/config'
+# alias zshconfig
+alias zshconfig='vim ~/.zshrc'
+# alias i3blocks config
+alias i3blocksconfig='vim ~/.config/i3blocks/config'
+
+# git alias to rebase current branch with master
+alias rebasepls='git fetch origin master:master && git rebase master'
+alias rpls='git fetch origin master:master && git rebase master'
+# alias to pull graphql master since it can fail during validation if your inbetween merges on stp and gql.
+alias gqlpls='wd gql && gcm && yarn && gl'
+alias graphqlpls='gqlpls'
+
+# git alias to pull fdm-api
+alias fdmpls='wd fdm && gcm && yarn && gl'
+alias authpls='wd auth && gcm && yarn && gl'
+alias fdmapipls='wd fdm && gcm && yarn && gl'
+alias stppls='wd stp && cleanpls && gl'
+alias fkinfdmpls='wd fdm && git reset HEAD --hard && gcm && yarn && gl'
+alias plspls='gqlpls && fdmpls && authpls && stppls'
+# alias to clean up graphql files before commit
+alias cleanpls='git checkout -- graphql.schema.json packages/apollo/schema.graphql types/intelli-graphql.d.ts'
+
+# alias to yeet current branch checkout master and cleanup
+alias yeet='gcm && yarn && git br-delete-useless && gl'
+alias fkinyeet='git reset HEAD --hard && gcm && yarn && git br-delete-useless'
+alias fuckingyeet='git reset HEAD --hard && gcm && yarn && git br-delete-useless'
+
+alias aliases='vim ~/.aliases'
+alias scripts='vim ~/.scripts.sh'
+alias exports='vim ~/.exports'
+
+alias killchrome='killall chrome'
+alias killcode='killall code'
+alias killstorm='kill -9 $(pgrep -f phpstorm)'
+alias killphp='kill -9 $(pgrep -f phpstorm)'
+alias killdev='killcode; killchrome; killstorm'
+
+function mkcd {
+  command mkdir $1 && cd $1
+}
+
+alias t='tmux'
+
+alias cpallthethings='cli cp --all && cli cp --sales && cli cp --fields'
+alias cppucs='cli cp --pucs 20 && cli cp --pucs 21 && cli cp --pucs 22 && cli cp --pucs 23'
+
+alias kcnp='kubectl config set-context --current --namespace=prod'
+alias kcnb='kubectl config set-context --current --namespace=beta'
+alias flushresdis='cli exec redis redis-cli flushall'
+
+alias gpuoh='git push -u origin HEAD'
+
+alias db='git branch -D'
+alias dps='docker ps'
+alias bctl='bluetoothctl'
+alias i3barconfig='v ~/.config/i3blocks/config'
+
+alias nspb='k config set-context --current --namespace=beta'
+alias nspp='k config set-context --current --namespace=prod'
+

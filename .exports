@@ -1,0 +1,53 @@
+# custom exports
+# to be imported by .bashrc, .zshrc, .etc or sourced when running terminal programs inline (i3-workaround not loading PATH)
+
+export TERMINAL="kitty"
+
+# default folder nvm goes to
+export NVM_DIR="$HOME/.nvm"
+
+# add our personal bin to path
+export PATH=$HOME/.bin:$PATH
+
+#powerline?
+export POWERLINE_CONFIG_COMMAND=$HOME/.local/bin/powerline-config
+
+# add composer to path
+export PATH=$PATH:~/.config/composer/vendor/bin
+
+#golang
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+
+# rust / cargo
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# add yarn globals to bin
+export PATH="$HOME/.yarn/bin:$PATH"
+
+# configure editors
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+# configure browser
+# TODO - Allow to be configurable on darwin/osx?
+# export BROWSER="chromium-browser"
+export BROWSER="google-chrome"
+
+export DEV_HOST=dev0.intellifarms.com
+
+# add krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export CLI_CP_SSH_USER=cduong
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# add kitty bin
+export PATH="$HOME/.local/kitty.app/bin:$PATH"
+
+# add snap bin for ssh
+export PATH="/snap/bin:$PATH"
+
+export JAVA_HOME="/usr/lib/jvm/default-java"
